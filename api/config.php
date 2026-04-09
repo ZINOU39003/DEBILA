@@ -29,8 +29,9 @@ try {
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        // SSL is often required by Aiven (managed services)
-        // PDO::MYSQL_ATTR_SSL_CA => '/path/to/ca.pem' // If user can upload CA, otherwise standard SSL
+        PDO::ATTR_TIMEOUT => 5, // 5 seconds timeout to prevent hanging
+        // Aiven requires SSL. Try without certificate verification first to debug
+        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
     ];
     
     $dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name;charset=utf8";
