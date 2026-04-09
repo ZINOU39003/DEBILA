@@ -1,6 +1,13 @@
 const pool = require('./db');
 
 module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PATCH');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
   // --- GET: Fetch Messages ---
   if (req.method === 'GET') {
     const { id } = req.query; // From rewrite or direct
