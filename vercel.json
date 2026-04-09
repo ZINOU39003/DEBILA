@@ -6,7 +6,8 @@
     }
   },
   "rewrites": [
-    { "source": "/api/auth/:path*", "destination": "/api/auth/:path*" },
+    { "source": "/api/auth/register", "destination": "/api/auth/register.js" },
+    { "source": "/api/auth/login", "destination": "/api/auth/login.js" },
     { "source": "/api/complaints/:id/status", "destination": "/api/complaints.js?id=$id" },
     { "source": "/api/complaints/:id/messages", "destination": "/api/messages.js?id=$id" },
     { "source": "/api/complaints", "destination": "/api/complaints.js" },

@@ -45,40 +45,6 @@ const handleTestDb = async (req, res) => {
 app.get('/api/test-db', handleTestDb);
 app.get('/test-db', handleTestDb);
 
-// --- Auth Routes ---
-const handleRegister = async (req, res) => {
-  const { phone, password, full_name, username, email, role } = req.body;
-  try {
-    const [rows] = await pool.execute(
-      'INSERT INTO users (phone, password, full_name, username, email, role) VALUES (?, ?, ?, ?, ?, ?)',
-      [phone, password, full_name, username, email, role || 'citizen']
-    );
-    const userId = rows.insertId;
-    const token = jwt.sign({ id: userId, phone, role: role || 'citizen' }, JWT_SECRET);
-    res.status(201).json({ success: true, access_token: token, user: { id: userId, phone, full_name, username, role: role || 'citizen' } });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
-
-app.post('/api/auth/register', handleRegister);
-app.post('/auth/register', handleRegister);
-
-// --- Login ---
-const handleLogin = async (req, res) => {
-  const { phone, password } = req.body;
-  try {
-    const [users] = await pool.execute('SELECT * FROM users WHERE (phone = ? OR username = ?) AND password = ?', [phone, phone, password]);
-    if (users.length === 0) return res.status(401).json({ success: false, message: 'Invalid credentials' });
-    const user = users[0];
-    const token = jwt.sign({ id: user.id, phone: user.phone, role: user.role }, JWT_SECRET);
-    res.json({ success: true, access_token: token, user });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-app.post('/api/auth/login', handleLogin);
-app.post('/auth/login', handleLogin);
+// Auth routes are handled by separate files in api/auth/ folder
 
 module.exports = app;
