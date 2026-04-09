@@ -103,4 +103,17 @@ app.post('/api/complaints', async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.json({ success: true, message: "Bader API Root is reachable." });
+});
+
+// --- Catch-all for undefined routes ---
+app.use((req, res) => {
+  res.status(404).json({ 
+    success: false, 
+    message: `Route ${req.originalUrl} not found in Express.`,
+    tip: "Make sure you are calling /api/health or /api/test-db"
+  });
+});
+
 module.exports = app;
