@@ -47,7 +47,19 @@ CREATE TABLE IF NOT EXISTS messages (
   FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- 4. Initial Admin User
+-- 4. Departments Table
+CREATE TABLE IF NOT EXISTS departments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  logo_uri TEXT,
+  cover_uri TEXT,
+  sector VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 5. Initial Admin User
 INSERT INTO users (full_name, phone, username, password, role) 
 VALUES ('المدير العام للمنصة', '0500000000', 'admin', '123456', 'admin')
 ON DUPLICATE KEY UPDATE full_name=full_name;

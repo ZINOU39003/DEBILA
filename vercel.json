@@ -12,6 +12,7 @@
     { "source": "/api/complaints/:id/messages", "destination": "/api/messages.js?id=$id" },
     { "source": "/api/complaints", "destination": "/api/complaints.js" },
     { "source": "/api/health", "destination": "/api/health.js" },
-    { "source": "/api/test_db", "destination": "/api/test_db.js" }
+    { "source": "/api/test_db", "destination": "/api/test_db.js" },
+    { "source": "/api/departments", "destination": "/api/departments.js" }
   ]
 }
