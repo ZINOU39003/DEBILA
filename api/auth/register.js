@@ -48,6 +48,19 @@ module.exports = async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error details:', error);
-    res.status(400).json({ success: false, message: error.message, code: error.code });
+    let message = error.message;
+    
+    // Handle specific MySQL errors
+    if (error.code === 'ER_DUP_ENTRY') {
+      if (message.includes('phone')) {
+        message = 'رقم الهاتف مسجل مسبقاً. يرجى استخدام رقم آخر أو تسجيل الدخول.';
+      } else if (message.includes('username')) {
+        message = 'اسم المستخدم مسجل مسبقاً. يرجى اختيار اسم آخر.';
+      } else {
+        message = 'هذا الحساب مسجل مسبقاً.';
+      }
+    }
+    
+    res.status(400).json({ success: false, message, code: error.code });
   }
 };
